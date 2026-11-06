@@ -115,7 +115,7 @@ function AuthLink({ large = false }: { large?: boolean }) {
     <>
       <SignedOut>
         <Link to="/login" className={`inline-flex ${size} items-center rounded-full bg-stamp text-sm font-medium text-card`}>
-          Entrar con Google
+          Entrar
         </Link>
       </SignedOut>
       <SignedIn>
