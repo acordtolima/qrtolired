@@ -1,1 +1,0 @@
-import{t as e}from"./jsx-runtime-NZYk81nU.js";import{t}from"./qr-studio-Bvc3-JQO.js";import{r as n}from"./content-Bxay2lP-.js";var r=e(),i=()=>(0,r.jsxs)(`div`,{children:[(0,r.jsx)(`h1`,{className:`mb-5 font-display text-4xl`,children:`Nuevo código`}),(0,r.jsx)(t,{initial:n})]});export{i as component};
