@@ -1,0 +1,38 @@
+{
+  "url": "http://127.0.0.1:8081/",
+  "viewports": {
+    "desktop": {
+      "width": 1280,
+      "height": 800,
+      "status": 200,
+      "title": "Sello — Códigos QR con tu marca",
+      "hasCanvas": false,
+      "bodyTextLen": 2271,
+      "bodyTextHash": "2ef4376a8fdd75be661cd49116b09bebc2bc2ac0f30534bb03306201a1ab3ba5",
+      "bodyTextPrefix": "Sello Reglas Paquetes Entrar con Google Códigos QR para Colombia",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/built.png"
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "title": "Sello — Códigos QR con tu marca",
+      "hasCanvas": false,
+      "bodyTextLen": 2255,
+      "bodyTextHash": "e2438c1a677475b206a78888ae2f0825b8a2eae8feac9aa61949c7d67b82d0cd",
+      "bodyTextPrefix": "Sello Entrar con Google Códigos QR para Colombia Tu marca en el ",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/built-mobile.png"
+    }
+  },
+  "brandWarnings": [],
+  "authWarnings": [],
+  "verdictFile": "/workspace/screenshots/built.json",
+  "divergesFromBaseline": false,
+  "baselineReasons": []
+}
