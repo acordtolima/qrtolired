@@ -196,6 +196,7 @@ function liveOf(
   row: { slot: string; ent_status: string | null; ent_expires: unknown },
   freeLive: boolean,
 ) {
+  if (row.slot === "admin") return { live: true, pauseReason: null };
   if (row.slot === "free") {
     return freeLive
       ? { live: true, pauseReason: null }
@@ -209,6 +210,7 @@ function liveOf(
 }
 
 function sourceLabel(row: { slot: string; package_name: string | null }, freeUntil: string | null) {
+  if (row.slot === "admin") return "Administrador · sin límite";
   if (row.slot === "free") return freeUntil ? `Gratis · entra antes del ${freeUntil}` : "Gratis";
   return row.package_name ? `Paquete ${row.package_name}` : "Paquete";
 }
@@ -221,7 +223,7 @@ function mapList(row: QrRow, freeLive: boolean, freeUntilLabel: string | null): 
     title: row.title || "Sin título",
     kind: row.kind as Kind,
     summary: row.summary,
-    slot: row.slot === "paid" ? "paid" : "free",
+    slot: row.slot === "paid" ? "paid" : row.slot === "admin" ? "admin" : "free",
     live: state.live,
     pauseReason: state.pauseReason,
     sourceLabel: sourceLabel(row, freeUntilLabel),
@@ -346,7 +348,13 @@ function publicId() {
   return out;
 }
 
+async function isAdmin(sql: Sql, userId: string) {
+  const rows = await sql<{ role: string }>`select role from profiles where user_id = ${userId}`;
+  return rows[0]?.role === "admin";
+}
+
 async function pickSlot(sql: Sql, userId: string) {
+  if (await isAdmin(sql, userId)) return { slot: "admin" as const, entitlementId: null as number | null };
   const cfg = await settings(sql);
   const quota = await usage(sql, userId, cfg.free_qr_limit);
   if (quota.freeUsed < cfg.free_qr_limit) return { slot: "free" as const, entitlementId: null as number | null };

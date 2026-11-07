@@ -67,7 +67,7 @@ export type QrListItem = {
   title: string;
   kind: Kind;
   summary: string;
-  slot: "free" | "paid";
+  slot: "free" | "paid" | "admin";
   live: boolean;
   pauseReason: string | null;
   sourceLabel: string;
