@@ -77,10 +77,14 @@ export function AppShell({ children }: { children?: ReactNode }) {
       </header>
       <div className="mx-auto max-w-6xl px-4 py-6 pb-24">
         {me ? (
-          <p className="mb-5 text-sm text-muted tabular-nums">
-            Cupo: {me.freeUsed}/{me.freeLimit} gratis
-            {me.paidCapacity ? ` · ${me.paidUsed}/${me.paidCapacity} de paquetes` : ""} · {me.remaining} disponibles
-          </p>
+          me.role === "admin" ? (
+            <p className="mb-5 text-sm text-muted">Administrador · códigos sin límite</p>
+          ) : (
+            <p className="mb-5 text-sm text-muted tabular-nums">
+              Cupo: {me.freeUsed}/{me.freeLimit} gratis
+              {me.paidCapacity ? ` · ${me.paidUsed}/${me.paidCapacity} de paquetes` : ""} · {me.remaining} disponibles
+            </p>
+          )
         ) : (
           <div className="mb-5 h-5 w-64 animate-pulse rounded-full bg-paper-deep" />
         )}

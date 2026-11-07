@@ -1,6 +1,9 @@
 import { useEffect, useRef } from "react";
 import type { CornerStyle, DotStyle } from "@/lib/qr/types";
 
+/** Lado en píxeles del PNG descargado (apto para impresión). */
+const DOWNLOAD_SIZE = 2048;
+
 type Props = {
   data: string;
   fg: string;
@@ -38,24 +41,34 @@ export function QrPreview({
     void (async () => {
       const { default: QRCodeStyling } = await import("qr-code-styling");
       if (dead || !host.current) return;
-      const qr = new QRCodeStyling({
-        width: size,
-        height: size,
-        type,
+      const options = (px: number, margin: number) => ({
+        width: px,
+        height: px,
         data: data || "Sello",
-        margin: 8,
+        margin,
         image: logo || undefined,
-        qrOptions: { errorCorrectionLevel: logo ? "H" : "Q" },
+        qrOptions: { errorCorrectionLevel: (logo ? "H" : "Q") as "H" | "Q" },
         dotsOptions: { type: dotStyle, color: fg },
         backgroundOptions: { color: bg },
         cornersSquareOptions: { type: cornerStyle, color: accent },
-        cornersDotOptions: { type: cornerStyle === "dot" ? "dot" : "square", color: accent },
-        imageOptions: { hideBackgroundDots: true, imageSize: 0.38, margin: 4, crossOrigin: "anonymous" },
+        cornersDotOptions: { type: (cornerStyle === "dot" ? "dot" : "square") as "dot" | "square", color: accent },
+        imageOptions: {
+          hideBackgroundDots: true,
+          imageSize: 0.38,
+          margin: Math.round((4 * px) / 280),
+          crossOrigin: "anonymous",
+        },
       });
+      const qr = new QRCodeStyling({ ...options(size, 8), type });
       host.current.replaceChildren();
       qr.append(host.current);
       ready.current?.({
-        download: (ext) => qr.download({ name: "sello", extension: ext }),
+        // Descarga en alta resolución, independiente del tamaño en pantalla.
+        download: (ext) =>
+          new QRCodeStyling({
+            ...options(DOWNLOAD_SIZE, Math.round((8 * DOWNLOAD_SIZE) / 280)),
+            type: ext === "svg" ? "svg" : "canvas",
+          }).download({ name: "sello", extension: ext }),
       });
     })();
     return () => {
